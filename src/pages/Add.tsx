@@ -5,7 +5,7 @@ import eventsData from '../events.json';
 import { db, collection, addDoc } from '../firebase-config';
 import { Timestamp } from 'firebase/firestore';
 import TabBar from '../components/TabBar';
-import './AddEvent.css';
+import './AddEvent.css'
 
 export default function AddEvent() {
   const [date, setDate] = useState<Date>(new Date());
@@ -33,33 +33,39 @@ export default function AddEvent() {
   };
 
   return (
-    <div className="add-event-container">
-      <h1 className="page-title">Ajouter un événement</h1>
+    <div className="container my-5">
+      <h1 className="mb-4 text-center">Ajouter un événement</h1>
 
-      <Calendar value={date} onChange={(d) => d instanceof Date && setDate(d)} />
+      <div className="mb-4 d-flex justify-content-center text-dark">
+        <Calendar value={date} onChange={(d) => d instanceof Date && setDate(d) } className="text-dark" />
+      </div>
 
-      <select
-        className="event-select"
-        onChange={(e) =>
-          setSelectedEvent(eventsData.find(ev => ev.id === e.target.value) || null)
-        }
-      >
-        <option value="">Choisir un événement</option>
-        {eventsData.map(ev => (
-          <option key={ev.id} value={ev.id}>{ev.title}</option>
-        ))}
-      </select>
+      <div className="mb-3">
+        <select
+          className="form-select"
+          onChange={(e) =>
+            setSelectedEvent(eventsData.find(ev => ev.id === e.target.value) || null)
+          }
+        >
+          <option value="">Choisir un événement</option>
+          {eventsData.map(ev => (
+            <option key={ev.id} value={ev.id}>{ev.title}</option>
+          ))}
+        </select>
+      </div>
 
-      <input
-        type="time"
-        className="event-time"
-        value={eventTime}
-        onChange={(e) => setEventTime(e.target.value)}
-      />
+      <div className="mb-3">
+        <input
+          type="time"
+          className="form-control"
+          value={eventTime}
+          onChange={(e) => setEventTime(e.target.value)}
+        />
+      </div>
 
-      <button className="submit-btn" onClick={handleAddEvent}>Ajouter</button>
+      <button className="btn btn-success w-100 mb-3" onClick={handleAddEvent}>Ajouter</button>
 
-      {successMessage && <p className="message">{successMessage}</p>}
+      {successMessage && <div className="alert alert-info">{successMessage}</div>}
 
       <TabBar />
     </div>

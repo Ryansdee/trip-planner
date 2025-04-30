@@ -1,28 +1,26 @@
 import { useEffect, useState } from 'react';
-import { db } from '../firebase-config'; // Importer la configuration Firestore
+import { db } from '../firebase-config';
 import { collection, getDocs } from 'firebase/firestore';
 import TabBar from '../components/TabBar';
-import './Home.css'; // Assurez-vous que ce fichier contient les styles correspondants
+import './Home.css';
 
 const Home = () => {
-  // Déclare un état pour les événements
   const [events, setEvents] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); // Pour savoir si les données sont en cours de chargement
+  const [loading, setLoading] = useState<boolean>(true);
+  const [doneEvents, setDoneEvents] = useState<Set<string>>(new Set());
 
-  // Utilisation de useEffect pour récupérer les données au chargement du composant
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Récupérer la collection "events"
         const querySnapshot = await getDocs(collection(db, 'events'));
-        
-        // Map les documents Firestore dans un tableau d'objets
-        const eventsData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
 
-        // Mettre à jour l'état des événements avec les données récupérées
+        const eventsData = querySnapshot.docs
+          .map(doc => ({
+            id: doc.id,
+            ...(doc.data() as { title: string; description: string; address: string; date: { seconds: number } })
+          }))
+          .sort((a, b) => a.date.seconds - b.date.seconds);
+
         setEvents(eventsData);
       } catch (error) {
         console.error("Error fetching events: ", error);
@@ -31,34 +29,61 @@ const Home = () => {
       }
     };
 
-    fetchData(); // Appeler la fonction de récupération
-  }, []); // Le tableau vide [] assure que la récupération ne se fait qu'une seule fois au montage du composant
+    fetchData();
+  }, []);
+
+  const handleMarkAsDone = (id: string) => {
+    setDoneEvents(prev => new Set(prev).add(id));
+  };
 
   return (
-    <div className="home-container">
-      <h1 className="page-title">Liste des événements</h1>
+    <div className="container my-4">
+      <h1 className="text-center mb-4">Liste des événements</h1>
 
-      {/* Affichage des événements */}
-      <div className="events-container">
-        {loading ? (
-          <p>Chargement...</p>
-        ) : events.length > 0 ? (
-          events.map(event => (
-            <div key={event.id} className="event-card">
-              <h2 className="event-title">{event.title}</h2>
-              <p className="event-description">{event.description}</p>
-              <p className="event-address">{event.address}</p>
-              <p className="event-time">
-                {new Date(event.date.seconds * 1000).toLocaleString()}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p>Aucun événement trouvé.</p>
-        )}
-      </div>
+      {loading ? (
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Chargement...</span>
+          </div>
+        </div>
+      ) : events.length > 0 ? (
+        <div className="row">
+          {events.map(event => {
+            const isDone = doneEvents.has(event.id);
+            return (
+              <div key={event.id} className="col-md-6 col-lg-4 mb-4">
+                <div className={`card h-100 ${isDone ? 'bg-light' : ''}`}>
+                  <div className="card-body">
+                    <h5 className={`card-title ${isDone ? 'text-decoration-line-through text-muted' : ''}`}>
+                      {event.title}
+                    </h5>
+                    <p className={`card-text ${isDone ? 'text-muted text-decoration-line-through' : ''}`}>
+                      {event.description}
+                    </p>
+                    <p className={`card-text ${isDone ? 'text-muted text-decoration-line-through' : ''}`}>
+                      <strong>Adresse :</strong> {event.address}
+                    </p>
+                    <p className={`card-text ${isDone ? 'text-muted text-decoration-line-through' : ''}`}>
+                      <strong>Date :</strong> {new Date(event.date.seconds * 1000).toLocaleString()}
+                    </p>
+                    {!isDone && (
+                      <button
+                        className="btn btn-outline-success btn-sm mt-2"
+                        onClick={() => handleMarkAsDone(event.id)}
+                      >
+                        ✅ Fait
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <p className="text-center">Aucun événement trouvé.</p>
+      )}
 
-      {/* TabBar en bas */}
       <TabBar />
     </div>
   );

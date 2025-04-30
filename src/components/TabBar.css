@@ -1,35 +1,3 @@
-/* Style pour la TabBar en bas de page */
-
-.tabbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #ffffff;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .tabbar-item {
-    flex: 1;
-    text-align: center;
-    text-decoration: none;
-    color: #1d2626;
-    font-size: 1rem;
-    padding: 12px;
-  }
-  
-  .tabbar-item:hover {
-    background-color: #eaeaea;
-    border-radius: 30px;
-  }
-  
-  .tabbar-item.active {
-    color: #d32626;
-    font-weight: normal;
-  }
-  
+.tabbar{
+  padding-bottom: 50px
+}

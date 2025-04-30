@@ -1,47 +1,45 @@
-import { useState, useEffect } from 'react'
-import { auth } from '../firebase-config'
-import { signOut } from 'firebase/auth'
-import './Profile.css'
-import TabBar from '../components/TabBar'
+import { useState, useEffect } from 'react';
+import { auth } from '../firebase-config';
+import { signOut } from 'firebase/auth';
+import TabBar from '../components/TabBar';
 
 export default function Profile() {
-  const [userInfo, setUserInfo] = useState<{ name: string; email: string } | null>(null)
+  const [userInfo, setUserInfo] = useState<{ name: string; email: string } | null>(null);
 
   useEffect(() => {
-    const user = auth.currentUser
+    const user = auth.currentUser;
     if (user) {
       setUserInfo({
         name: user.displayName || 'Utilisateur',
         email: user.email || 'Email inconnu',
-      })
+      });
     }
-  }, [])
+  }, []);
 
   const handleLogout = async () => {
-    await signOut(auth)
-  }
+    await signOut(auth);
+  };
 
-  if (!userInfo) return null
+  if (!userInfo) return null;
 
   return (
-    <div className="profile-container">
-      <div className="profile-card">
-        <h1 className="profile-title">Mon Profil</h1>
-
-        <div className="profile-info">
-          <div className="profile-item">
-            <strong>Nom :</strong> {userInfo.name}
-          </div>
-          <div className="profile-item">
-            <strong>Email :</strong> {userInfo.email}
-          </div>
+    <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 me-auto" style={{ width: '100dvw' }}>
+      <div className="card p-4 shadow-sm w-100 text-left" style={{ maxWidth: '500px' }}>
+        <h1 className="mb-4 text-center">Mon Profil</h1>
+        <div className="mb-3">
+          <strong>Nom :</strong> <span>{userInfo.name}</span>
         </div>
-
-        <button className="logout-button" onClick={handleLogout}>
+        <div className="mb-3">
+          <strong>Email :</strong> <span>{userInfo.email}</span>
+        </div>
+        <button className="btn btn-danger w-100" onClick={handleLogout}>
           Se déconnecter
         </button>
       </div>
-            <TabBar />
+
+      <div className="w-100 mt-5">
+        <TabBar />
+      </div>
     </div>
-  )
+  );
 }
