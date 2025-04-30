@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { db } from '../firebase-config'; // Importer la configuration Firestore
 import { collection, getDocs } from 'firebase/firestore';
 import TabBar from '../components/tabbar';
