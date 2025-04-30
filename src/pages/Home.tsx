@@ -17,7 +17,7 @@ const Home = () => {
         const eventsData = querySnapshot.docs
           .map(doc => ({
             id: doc.id,
-            ...(doc.data() as { title: string; description: string; address: string; date: { seconds: number } })
+            ...(doc.data() as { title: string; date: { seconds: number } })
           }))
           .sort((a, b) => a.date.seconds - b.date.seconds);
 
@@ -36,9 +36,17 @@ const Home = () => {
     setDoneEvents(prev => new Set(prev).add(id));
   };
 
+  const groupedEvents = events.reduce((acc: Record<string, any[]>, event) => {
+    const date = new Date(event.date.seconds * 1000);
+    const dateKey = date.toISOString().split('T')[0];
+    acc[dateKey] = acc[dateKey] || [];
+    acc[dateKey].push({ ...event, dateObj: date });
+    return acc;
+  }, {});
+
   return (
-    <div className="container my-4">
-      <h1 className="text-center mb-4">Liste des événements</h1>
+    <div className="container my-4" style={{ height: 'auto', paddingBottom: '30px' }}>
+      <h1 className="text-center mb-4 titrehaut">Événements par jour</h1>
 
       {loading ? (
         <div className="text-center">
@@ -46,40 +54,35 @@ const Home = () => {
             <span className="visually-hidden">Chargement...</span>
           </div>
         </div>
-      ) : events.length > 0 ? (
-        <div className="row">
-          {events.map(event => {
-            const isDone = doneEvents.has(event.id);
-            return (
-              <div key={event.id} className="col-md-6 col-lg-4 mb-4">
-                <div className={`card h-100 ${isDone ? 'bg-light' : ''}`}>
-                  <div className="card-body">
-                    <h5 className={`card-title ${isDone ? 'text-decoration-line-through text-muted' : ''}`}>
-                      {event.title}
-                    </h5>
-                    <p className={`card-text ${isDone ? 'text-muted text-decoration-line-through' : ''}`}>
-                      {event.description}
-                    </p>
-                    <p className={`card-text ${isDone ? 'text-muted text-decoration-line-through' : ''}`}>
-                      <strong>Adresse :</strong> {event.address}
-                    </p>
-                    <p className={`card-text ${isDone ? 'text-muted text-decoration-line-through' : ''}`}>
-                      <strong>Date :</strong> {new Date(event.date.seconds * 1000).toLocaleString()}
-                    </p>
+      ) : Object.keys(groupedEvents).length > 0 ? (
+        Object.entries(groupedEvents).map(([date, dayEvents]) => (
+          <div key={date} className="mb-4">
+            <h5 className="mb-3">{new Date(date).toLocaleDateString()}</h5>
+            <ul className="list-group">
+              {dayEvents.map(event => {
+                const isDone = doneEvents.has(event.id);
+                return (
+                  <li
+                    key={event.id}
+                    className={`list-group-item d-flex justify-content-between align-items-center ${isDone ? 'text-muted text-decoration-line-through' : ''}`}
+                  >
+                    <span>
+                      {event.dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} — {event.title}
+                    </span>
                     {!isDone && (
                       <button
-                        className="btn btn-outline-success btn-sm mt-2"
+                        className="btn btn-sm btn-outline-success"
                         onClick={() => handleMarkAsDone(event.id)}
                       >
-                        ✅ Fait
+                        ✅
                       </button>
                     )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))
       ) : (
         <p className="text-center">Aucun événement trouvé.</p>
       )}
