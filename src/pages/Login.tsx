@@ -25,7 +25,7 @@ export default function Login() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
+    <div className="container d-flex justify-content-center align-items-center vh-100" style={{ width: '100dvw' }}>
       <div className="card p-4 shadow" style={{ maxWidth: 400, width: '100%' }}>
         <div className="text-center mb-3">
           <img src="/TRIP.png" alt="Logo" width="200" />
