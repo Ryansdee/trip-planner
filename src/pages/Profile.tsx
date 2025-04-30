@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { auth } from '../firebase-config'
 import { signOut } from 'firebase/auth'
 import './Profile.css'
-import TabBar from '../components/tabbar'
+import TabBar from '../components/TabBar'
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState<{ name: string; email: string } | null>(null)

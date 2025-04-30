@@ -4,7 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import eventsData from '../events.json';
 import { db, collection, addDoc } from '../firebase-config';
 import { Timestamp } from 'firebase/firestore';
-import TabBar from '../components/tabbar';
+import TabBar from '../components/TabBar';
 import './AddEvent.css';
 
 export default function AddEvent() {
