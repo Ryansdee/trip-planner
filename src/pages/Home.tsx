@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { db } from '../firebase-config'; // Importer la configuration Firestore
 import { collection, getDocs } from 'firebase/firestore';
-import TabBar from '../components/tabbar';
+import TabBar from '../components/TabBar';
 import './Home.css'; // Assurez-vous que ce fichier contient les styles correspondants
 
 const Home = () => {
