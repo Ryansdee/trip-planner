@@ -1,4 +1,89 @@
-.react-calendar,
-.react-calendar * {
-  color: #000 !important; /* Force le texte en noir */
+/* Amélioration du calendrier */
+.react-calendar {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 10px;
+  font-family: 'Arial', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.react-calendar__tile {
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* Ajouter des effets sur les jours sélectionnés */
+.react-calendar__tile:enabled:hover {
+  background-color: #7894ac;
+  cursor: pointer;
+  color: black;
+}
+
+.react-calendar__tile--active {
+  background-color: #0056b3;
+  color: black;
+  font-weight: bold;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  font-size: 1rem;
+  color: #333;
+}
+
+.react-calendar__tile--now {
+  background-color: red;
+  color: black;
+  font-weight: bold;
+}
+
+.react-calendar__navigation button {
+  border: none;
+  background-color: transparent;
+  font-size: 1.2rem;
+  color: #007bff;
+  padding: 8px;
+}
+
+.react-calendar__navigation button:hover {
+  background-color: #f0f8ff;
+}
+.react-calendar__month-view__days__day{
+  color: black;
+}
+/* Style des alertes */
+.alert-info {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #017C6D;
+}
+
+/* Style du bouton d'ajout */
+.btn-success {
+  background-color: #28a745;
+  border: none;
+  font-size: 1.1rem;
+  padding: 12px;
+  border-radius: 5px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* Effet sur la sélection de l'événement */
+select.form-select {
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s ease;
+}
+
+select.form-select:focus {
+  border-color: #28a745;
+  outline: none;
 }
