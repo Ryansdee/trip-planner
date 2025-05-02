@@ -63,7 +63,7 @@ export default function AddEvent() {
         />
       </div>
 
-      <button className="btn btn-success w-100 mb-3" onClick={handleAddEvent}>Ajouter</button>
+      <button className="btn btn-secondary w-100 mb-3" onClick={handleAddEvent}>Ajouter</button>
 
       {successMessage && <div className="alert alert-info">{successMessage}</div>}
 

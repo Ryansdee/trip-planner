@@ -1,89 +1,138 @@
-/* Amélioration du calendrier */
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+  line-height: 1.5;
+}
+
+.container {
+  padding: 1rem;
+  max-width: 600px;
+  margin: auto;
+}
+
+/* Header */
+h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+/* Calendar Container */
 .react-calendar {
   border: none;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  padding: 10px;
-  font-family: 'Arial', sans-serif;
-  transition: all 0.3s ease;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 0.5rem;
+  background: white;
+  width: 100%;
+  max-width: 100%;
 }
 
-.react-calendar__tile {
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
+.react-calendar__navigation__label{
+  color: black !important;
 }
 
-/* Ajouter des effets sur les jours sélectionnés */
-.react-calendar__tile:enabled:hover {
-  background-color: #7894ac;
-  cursor: pointer;
-  color: black;
+.react-calendar__navigation__arrow{
+  color: black !important;
 }
 
 .react-calendar__tile--active {
-  background-color: #0056b3;
-  color: black;
-  font-weight: bold;
-}
-
-.react-calendar__month-view__weekdays__weekday {
-  font-size: 1rem;
-  color: #333;
+  background: #2563eb !important;
+  color: white !important;
+  border-radius: 8px;
 }
 
 .react-calendar__tile--now {
-  background-color: red;
-  color: black;
-  font-weight: bold;
+  background: #e0f2fe;
+  border-radius: 8px;
 }
 
-.react-calendar__navigation button {
-  border: none;
-  background-color: transparent;
-  font-size: 1.2rem;
-  color: #007bff;
-  padding: 8px;
-}
-
-.react-calendar__navigation button:hover {
-  background-color: #f0f8ff;
-}
-.react-calendar__month-view__days__day{
+.react-calendar__month-view__days__day abbr{
   color: black;
 }
-/* Style des alertes */
-.alert-info {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #017C6D;
-}
 
-/* Style du bouton d'ajout */
-.btn-success {
-  background-color: #28a745;
-  border: none;
-  font-size: 1.1rem;
-  padding: 12px;
-  border-radius: 5px;
-  width: 100%;
-  transition: background-color 0.3s ease;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-}
-
-/* Effet sur la sélection de l'événement */
+/* Dropdown */
 select.form-select {
-  border-radius: 5px;
+  width: 100%;
+  padding: 0.75rem;
   font-size: 1rem;
-  padding: 10px;
-  border: 1px solid #ddd;
-  transition: border-color 0.3s ease;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
 }
 
 select.form-select:focus {
-  border-color: #28a745;
   outline: none;
+  border-color: #2563eb;
+}
+
+/* Time Input */
+input[type="time"] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+/* Button */
+button.btn-success {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #10b981;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 14px;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-success:hover {
+  background-color: #059669;
+}
+
+/* Success Message */
+.alert {
+  padding: 0.75rem;
+  background-color: #ecfdf5;
+  color: #065f46;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* Responsive (Tablet/Desktop) */
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 2rem;
+  }
+
+  select.form-select,
+  input[type="time"] {
+    font-size: 1.1rem;
+  }
+
+  button.btn-success {
+    font-size: 1.1rem;
+  }
 }

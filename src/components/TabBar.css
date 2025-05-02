@@ -1,3 +1,81 @@
-.tabbar{
-  padding-bottom: 1000px
+/* Style général de la barre de navigation */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff8e !important;
+  padding: 10px 0;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.navbar a {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6b7280; /* Couleur de texte par défaut */
+  text-decoration: none;
+  text-align: center;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar a:hover {
+  background-color: #f3f4f6;
+  color: #4B92DB;
+}
+
+/* Modification de couleur lorsque l'élément est actif */
+.navbar a.text-primary {
+  color: #4B92DB;
+  font-weight: bold;
+}
+
+.navbar a.text-muted {
+  color: #9ca3af;
+}
+
+/* Animations & transition sur le hover */
+.navbar a:hover {
+  background-color: #10B981; /* Vert accent sur le survol */
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* Sections spécifiques pour l'icon et le nom utilisateur */
+.navbar .active-user {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Spacing et taille d'icône sur mobile */
+@media (max-width: 767px) {
+  .navbar a {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+
+  .navbar .active-user {
+    font-size: 0.9rem;
+  }
+}
+
+/* En mode tablette ou plus grand, augmenter légèrement la taille des éléments */
+@media (min-width: 768px) {
+  .navbar a {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+  }
+
+  .navbar .active-user {
+    font-size: 1rem;
+  }
 }
