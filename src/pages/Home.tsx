@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { db } from '../firebase-config';
 import { collection, getDocs, deleteDoc, doc, query, where } from 'firebase/firestore';
 import TabBar from '../components/TabBar';
-import './Home.css'; // CSS modifié à la fin
+import './Home.css';
 
 const Home = () => {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [doneEvents, setDoneEvents] = useState<Set<string>>(new Set());
+  const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const startDate = new Date('2025-05-04');
 
@@ -75,6 +77,16 @@ const Home = () => {
     return acc;
   }, {});
 
+  const openEventDetails = (event: any) => {
+    setSelectedEvent(event);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedEvent(null);
+  };
+
   return (
     <div className="container home-container">
       <header className="home-header">
@@ -103,11 +115,12 @@ const Home = () => {
                     <div
                       key={event.id}
                       className={`event-card ${isDone ? 'event-done' : ''}`}
+                      onClick={() => openEventDetails(event)}
                     >
                       <div>
                         <strong>{event.dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</strong> — {event.title}
                       </div>
-                      <div className="btn-actions">
+                      <div className="btn-actions" onClick={e => e.stopPropagation()}>
                         {!isDone && (
                           <button className="btn btn-check" onClick={() => handleMarkAsDone(event.id)}>✅</button>
                         )}
@@ -122,6 +135,18 @@ const Home = () => {
         })
       ) : (
         <p className="text-center text-muted">Aucun événement disponible.</p>
+      )}
+
+      {showModal && selectedEvent && (
+        <div className="modal-backdrop" onClick={closeModal}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h3><strong>{selectedEvent.title}</strong></h3>
+            <p><strong>Date :</strong> {selectedEvent.dateObj.toLocaleDateString()}</p>
+            <p><strong>Adresse :</strong> {selectedEvent.address} </p>
+            <p><strong>Heure :</strong> {selectedEvent.dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+            <button className="btn btn-close" onClick={closeModal}></button>
+          </div>
+        </div>
       )}
 
       <TabBar />
