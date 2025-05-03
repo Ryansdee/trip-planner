@@ -8,7 +8,7 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import Add from './pages/Add'
-import Register from './pages/register'
+import Register from './pages/Register'
 
 // Import de react-dnd pour le drag-and-drop
 import { DndProvider } from 'react-dnd'
