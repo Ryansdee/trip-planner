@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { auth } from '../firebase-config';
 import { signOut } from 'firebase/auth';
 import TabBar from '../components/TabBar';
+import { FaUserCircle, FaSignOutAlt, FaEnvelope } from 'react-icons/fa';
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState<{ name: string; email: string } | null>(null);
@@ -23,16 +24,22 @@ export default function Profile() {
   if (!userInfo) return null;
 
   return (
-    <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 me-auto" style={{ width: '100dvw' }}>
-      <div className="card p-4 shadow-sm w-100 text-left" style={{ maxWidth: '500px' }}>
-        <h1 className="mb-4 text-center">Mon Profil</h1>
-        <div className="mb-3">
-          <strong>Nom :</strong> <span>{userInfo.name}</span>
-        </div>
-        <div className="mb-3">
-          <strong>Email :</strong> <span>{userInfo.email}</span>
-        </div>
-        <button className="btn btn-danger w-100" onClick={handleLogout}>
+    <div
+      className="d-flex flex-column justify-content-center align-items-center"
+      style={{ minHeight: '100vh', width: '100vw', padding: '1rem', backgroundColor: '#f8f9fa' }}
+    >
+      <div
+        className="profile-card shadow p-4 rounded-4 text-center"
+        style={{ maxWidth: 400, width: '100%', backgroundColor: '#fff' }}
+      >
+        <FaUserCircle size={80} className="mb-3 text-primary" />
+        <h2 className="mb-3">{userInfo.name}</h2>
+        <p className="mb-4 text-muted">
+          <FaEnvelope className="me-2" />
+          {userInfo.email}
+        </p>
+        <button className="btn btn-outline-danger w-100" onClick={handleLogout}>
+          <FaSignOutAlt className="me-2" />
           Se déconnecter
         </button>
       </div>

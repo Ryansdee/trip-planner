@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import Add from './pages/Add'
+import Register from './pages/register'
 
 // Import de react-dnd pour le drag-and-drop
 import { DndProvider } from 'react-dnd'
@@ -37,6 +38,7 @@ function App() {
           <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
           <Route path="/add" element={user ? <Add /> : <Navigate to="/" />} />
           <Route path="/profile" element={user ? <Profile /> : <Navigate to="/" />} />
+          <Route path="/register" element={user ? <Navigate to="/home" /> : <Register />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>

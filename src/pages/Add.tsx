@@ -5,7 +5,7 @@ import eventsData from '../events.json';
 import { db, collection, addDoc } from '../firebase-config';
 import { Timestamp } from 'firebase/firestore';
 import TabBar from '../components/TabBar';
-import './AddEvent.css'
+import './AddEvent.css';
 
 export default function AddEvent() {
   const [date, setDate] = useState<Date>(new Date());
@@ -25,24 +25,32 @@ export default function AddEvent() {
           ...selectedEvent,
           date: Timestamp.fromDate(eventDate),
         });
-        setSuccessMessage("Événement ajouté !");
+        setSuccessMessage("✅ Événement ajouté !");
+        setSelectedEvent(null);
+        setEventTime('');
       } catch {
-        setSuccessMessage("Erreur, réessaye.");
+        setSuccessMessage("❌ Erreur lors de l'ajout.");
       }
     }
   };
 
   return (
-    <div className="container my-5">
-      <h1 className="mb-4 text-center">Ajouter un événement</h1>
+    <div className="add-event-container container">
+      <h2 className="text-center mb-4">📌 Ajouter un événement</h2>
 
-      <div className="mb-4 d-flex justify-content-center text-dark">
-        <Calendar value={date} onChange={(d) => d instanceof Date && setDate(d) } className="text-dark" />
+      <div className="calendar-wrapper mb-4 d-flex justify-content-center">
+        <Calendar
+          value={date}
+          onChange={(d) => d instanceof Date && setDate(d)}
+          className="styled-calendar"
+        />
       </div>
 
-      <div className="mb-3">
+      <div className="form-wrapper mb-3">
+        <label className="form-label">Sélectionnez un événement</label>
         <select
           className="form-select"
+          value={selectedEvent?.id || ''}
           onChange={(e) =>
             setSelectedEvent(eventsData.find(ev => ev.id === e.target.value) || null)
           }
@@ -54,7 +62,8 @@ export default function AddEvent() {
         </select>
       </div>
 
-      <div className="mb-3">
+      <div className="form-wrapper mb-3">
+        <label className="form-label">Heure de l'événement</label>
         <input
           type="time"
           className="form-control"
@@ -63,9 +72,13 @@ export default function AddEvent() {
         />
       </div>
 
-      <button className="btn btn-secondary w-100 mb-3" onClick={handleAddEvent}>Ajouter</button>
+      <button className="btn btn-primary w-100 mb-3" onClick={handleAddEvent}>
+        ➕ Ajouter l'événement
+      </button>
 
-      {successMessage && <div className="alert alert-info">{successMessage}</div>}
+      {successMessage && (
+        <div className="alert alert-success text-center">{successMessage}</div>
+      )}
 
       <TabBar />
     </div>

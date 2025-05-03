@@ -1,27 +1,27 @@
 import { useState } from 'react';
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase-config';
 import { Link } from 'react-router-dom';
 
-export default function Login() {
+export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleEmailLogin = async (e: React.FormEvent) => {
+  const handleEmailRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch {
-      setError('Email ou mot de passe invalide');
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      setError("Erreur lors de l'inscription. Veuillez vérifier vos informations.");
     }
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleRegister = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
     } catch {
-      setError('Erreur avec Google');
+      setError('Erreur avec Google. Veuillez réessayer.');
     }
   };
 
@@ -36,8 +36,8 @@ export default function Login() {
       <div className="card p-5 shadow-lg" style={{ borderRadius: '20px', maxWidth: '420px', width: '100%' }}>
         <div className="text-center mb-4">
           <img src="/TRIP.png" alt="Logo" width="180" />
-          <h3 className="mt-3 text-dark fw-bold">Connexion</h3>
-          <p className="text-muted small">Heureux de vous revoir !</p>
+          <h3 className="mt-3 text-dark fw-bold">Créer un compte</h3>
+          <p className="text-muted small">Commencez votre aventure dès maintenant</p>
         </div>
 
         {error && (
@@ -46,7 +46,7 @@ export default function Login() {
           </div>
         )}
 
-        <form onSubmit={handleEmailLogin}>
+        <form onSubmit={handleEmailRegister}>
           <div className="form-group mb-3">
             <div className="input-group">
               <span className="input-group-text bg-light">
@@ -79,20 +79,20 @@ export default function Login() {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary w-100 mb-3 shadow-sm">
-            Se connecter
+          <button type="submit" className="btn btn-success w-100 mb-3 shadow-sm">
+            S'inscrire
           </button>
         </form>
 
         <div className="text-center my-2 text-muted">ou</div>
 
-        <button onClick={handleGoogleLogin} className="btn btn-outline-danger w-100 shadow-sm">
-          <i className="bi bi-google me-2"></i> Connexion avec Google
+        <button onClick={handleGoogleRegister} className="btn btn-outline-danger w-100 shadow-sm">
+          <i className="bi bi-google me-2"></i> S'inscrire avec Google
         </button>
 
         <div className="text-center mt-4">
-          <span className="text-muted small">Pas encore de compte ? </span>
-          <Link to="/register" className="text-primary text-decoration-none">Créer un compte</Link>
+          <span className="text-muted small">Vous avez déjà un compte ? </span>
+          <Link to="/" className="text-primary text-decoration-none">Se connecter</Link>
         </div>
       </div>
     </div>
